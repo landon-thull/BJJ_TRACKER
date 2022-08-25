@@ -12,7 +12,8 @@ app.use(express.json());
 connectDB();
 
 app.use("/", require("./routes/auth"));
-app.use("/profile", require("./routes/profile"));
+
+app.use("/api/profile", require("./routes/profile"));
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
 
