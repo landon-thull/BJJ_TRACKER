@@ -11,6 +11,9 @@ const rollSchema = new mongoose.Schema({
   date: {
     type: Date,
   },
+  Location: {
+    type: String,
+  },
   Opponent: {
     type: String,
   }

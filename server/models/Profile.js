@@ -3,12 +3,9 @@ const User = require("./User");
 
 const profileSchema = new mongoose.Schema({
   owner: {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-    },
-    username: String,
+    type: mongoose.Schema.Types.ObjectId,
   },
+  username: String,
   img: {
     data: Buffer,
     type: String,

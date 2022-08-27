@@ -7,10 +7,12 @@ const createProfile = async (req, res) => {
 
   const currentUser = req.user;
 
-  const existingProfile = await Profile.findOne({ owner: req.user._id })
+  const existingProfile = await Profile.findOne({ owner: currentUser.id })
+
+  console.log(currentUser)
 
   if (existingProfile) {
-    res.json({ message: "Profile already exists" })
+    res.json({ message: existingProfile })
   } else {
     const profile = new Profile({
       username: currentUser.username,
@@ -20,7 +22,7 @@ const createProfile = async (req, res) => {
       location: req.body.location,
       img: req.body.img,
       bio: req.body.bio,
-      owner: req.user._id,
+      owner: currentUser.id,
     });
 
     profile.save((err, profile) => {
@@ -48,7 +50,7 @@ const getProfile = (req, res) => {
 }
 
 const editProfile = (req, res) => {
-  Profile.findOneAndUpdate({ owner: req.user._id }, { $set: req.body }, { new: true })
+  Profile.findOneAndUpdate({ owner: req.user.id }, { $set: req.body }, { new: true })
     .then(profile => {
       if (!profile) {
         res.json({ message: "No profile found" });
@@ -62,7 +64,7 @@ const editProfile = (req, res) => {
 }
 
 const deleteProfile = (req, res) => {
-  Profile.findOneAndDelete({ owner: req.user._id })
+  Profile.findOneAndDelete({ owner: req.user.id })
     .then(profile => {
       if (!profile) {
         res.json({ message: "No profile found" });

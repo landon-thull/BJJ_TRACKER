@@ -46,15 +46,17 @@ const login = async = (req, res) => {
     .then(dbUser => {
       if (!dbUser) {
         res.json({ message: "Invalid username or password" });
+      } else {
+        userDB = dbUser;
       };
 
       //hash login password and compare to stored hash
-      bcrypt.compare(userLoggingIn.password, dbUser.password)
+      bcrypt.compare(userLoggingIn.password, userDB.password)
         .then(isCorrect => {
           if (isCorrect) {
             const payload = {
-              id: dbUser._id,
-              username: dbUser.username,
+              id: userDB._id,
+              username: userDB.username,
             }
 
             //sign jwt with 1 day expiration
